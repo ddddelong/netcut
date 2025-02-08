@@ -1,0 +1,17 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-read --allow-write --allow-net --allow-env --unstable-kv main.ts",
+    "deploy": "deployctl deploy --project=117b6669-c9fd-4a5c-b741-c56ab5317d26 main.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  },
+  "deploy": {
+    "project": "117b6669-c9fd-4a5c-b741-c56ab5317d26",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
+  }
+}
