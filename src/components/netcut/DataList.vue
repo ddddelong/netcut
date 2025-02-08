@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Data } from '@/types/netcut'
+import { copyToClipboard } from "@/utils/copy.ts"
+import { render } from '@/utils/markdown-it'
+import { Delete, DocumentCopy, Edit, View } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete, Edit, View } from '@element-plus/icons-vue'
 import Pagination from './Pagination.vue'
 
 defineProps<{
@@ -65,6 +67,18 @@ const handleDelete = async (name: string) => {
           <div class="card-header">
             <div class="card-title">
               <h3 class="card-name">{{ item.name }}</h3>
+              <el-tooltip 
+                content="来人，拿下！" 
+                placement="top"
+                :show-after="300"
+              >
+                <el-icon
+                  class="copy-icon"
+                  @click.stop="copyToClipboard(item.description)"
+                >
+                  <DocumentCopy />
+                </el-icon>
+              </el-tooltip>
               <el-tag size="small" effect="plain" class="date-tag">
                 {{ item.date }}
               </el-tag>
@@ -97,7 +111,8 @@ const handleDelete = async (name: string) => {
           </div>
           <div class="card-content" @click="emit('view', item)">
             <p class="description" :title="item.description">
-              {{ formatDescription(item.description) }}
+              <span v-html="render(formatDescription(item.description))"></span>
+<!--              {{ formatDescription(item.description) }}-->
             </p>
             <div class="view-more">
               <el-icon><View /></el-icon>
@@ -167,6 +182,7 @@ const handleDelete = async (name: string) => {
 .card-title {
   flex: 1;
   min-width: 0;
+  position: relative;
 }
 
 .card-name {
@@ -208,7 +224,7 @@ const handleDelete = async (name: string) => {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   color: var(--el-text-color-regular);
-  white-space: pre-wrap;
+  /*white-space: pre-line;*/
   font-family: var(--el-font-family);
   tab-size: 4;
   padding: 0;
@@ -268,6 +284,15 @@ const handleDelete = async (name: string) => {
   font-size: 12px;
 }
 
+.copy-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  color: var(--el-text-color-secondary);
+  transition: opacity 0.2s;
+  z-index: 1;
+}
 /* 移动端适配 */
 @media screen and (max-width: 768px) {
   .data-list {

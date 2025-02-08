@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import type { Data } from '@/types/netcut'
-import { computed, ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import type { Data } from '@/types/netcut';
+import { copyToClipboard } from "@/utils/copy.ts";
+import { render } from '@/utils/markdown-it';
+import { DocumentCopy } from '@element-plus/icons-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   modelValue: boolean
@@ -53,16 +55,6 @@ const extractInfo = computed(() => {
   return matches
 })
 
-// 复制到剪贴板
-const copyToClipboard = async (text: string) => {
-  try {
-    await navigator.clipboard.writeText(text)
-    ElMessage.success('复制成功')
-  } catch (err) {
-    ElMessage.error('复制失败')
-  }
-}
-
 const handleClose = () => {
   emit('update:modelValue', false)
 }
@@ -84,9 +76,22 @@ const handleClose = () => {
         <el-tag size="small" effect="plain" class="detail-date">
           {{ data.date }}
         </el-tag>
+        <el-tooltip 
+          content="来人，拷走！" 
+          placement="top"
+          :show-after="300"
+        >
+          <el-icon
+            class="copy-icon"
+            @click="copyToClipboard(data.description)"
+          >
+            <DocumentCopy />
+          </el-icon>
+        </el-tooltip>
       </div>
       <div class="detail-body">
-        <pre class="detail-description">{{ data.description }}</pre>
+        <span v-html="render(data.description)"></span>
+<!--        <pre class="detail-description">{{ data.description }}</pre>-->
       </div>
       <div v-if="extractInfo.length" class="detail-info">
         <div class="info-tags">
@@ -118,6 +123,9 @@ const handleClose = () => {
 }
 
 .detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
@@ -226,5 +234,16 @@ const handleClose = () => {
   .info-tag:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
+}
+
+.copy-icon {
+  cursor: pointer;
+  color: var(--el-text-color-secondary);
+  transition: color 0.2s;
+  margin-left: 8px;
+}
+
+.copy-icon:hover {
+  color: var(--el-color-primary);
 }
 </style> 

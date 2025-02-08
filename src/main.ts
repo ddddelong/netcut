@@ -1,4 +1,5 @@
 import "./assets/main.css";
+import 'highlight.js/styles/github.css';  // highlight.js 的样式
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
