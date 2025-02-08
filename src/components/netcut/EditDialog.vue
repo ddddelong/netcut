@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { Data } from '@/types/netcut'
-import { ref, computed } from 'vue'
+import type { Data } from '@/types/netcut';
+import { Close, Select } from '@element-plus/icons-vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
   modelValue: boolean
@@ -36,54 +37,60 @@ const handleSubmit = async () => {
 <template>
   <el-dialog
     v-model="dialogVisible"
-    title="编辑记录"
+    title="御批奏折 ✍️"
     width="95%"
     :max-width="800"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    class="edit-dialog"
+    class="edit-dialog imperial-editor"
     @close="handleClose"
   >
-    <el-form :model="data" label-width="50px" class="edit-form">
-      <el-form-item label="名称" class="edit-form-item">
-        <el-input 
-          v-model="data.name" 
-          placeholder="请输入名称"
-          disabled
-          class="edit-input"
-        />
-      </el-form-item>
-      <el-form-item label="描述" class="edit-form-item">
-        <el-input
-          v-model="data.description"
-          type="textarea"
-          :rows="12"
-          :autosize="{ minRows: 8, maxRows: 20 }"
-          placeholder="请输入描述"
-          class="edit-textarea"
-        />
-      </el-form-item>
-      <el-form-item label="日期" class="edit-form-item">
-        <el-date-picker
-          v-model="data.date"
-          type="datetime"
-          placeholder="选择日期时间"
-          format="MM-DD HH:mm"
-          value-format="MM-DD HH:mm"
-          class="edit-date-picker"
-        />
-      </el-form-item>
-    </el-form>
+    <div class="imperial-scroll">
+      <el-form :model="data" label-width="100px" class="edit-form">
+        <el-form-item label="📜 奏本名" class="edit-form-item">
+          <el-input 
+            v-model="data.name" 
+            placeholder="恭请陛下赐名"
+            disabled
+            class="edit-input imperial-input"
+          />
+        </el-form-item>
+        <el-form-item label="📖 奏本内容" class="edit-form-item">
+          <el-input
+            v-model="data.description"
+            type="textarea"
+            :rows="12"
+            :autosize="{ minRows: 8, maxRows: 20 }"
+            placeholder="请陛下朱批御览"
+            class="edit-textarea imperial-scroll"
+          />
+        </el-form-item>
+        <el-form-item label="📅 黄道吉日" class="edit-form-item">
+          <el-date-picker
+            v-model="data.date"
+            type="datetime"
+            placeholder="择良辰吉时"
+            format="MM-DD HH:mm"
+            value-format="MM-DD HH:mm"
+            class="edit-date-picker imperial-date"
+          />
+        </el-form-item>
+      </el-form>
+    </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="handleClose" class="cancel-button">取消</el-button>
+        <el-button @click="handleClose" class="cancel-button imperial-btn">
+          <el-icon><Close /></el-icon>
+          <span>朕不批了</span>
+        </el-button>
         <el-button
           type="primary"
           @click="handleSubmit"
           :loading="editing"
-          class="submit-button"
+          class="submit-button imperial-btn"
         >
-          {{ editing ? '保存中...' : '保存' }}
+          <el-icon v-if="!editing"><Select /></el-icon>
+          {{ editing ? '御笔亲批中...🖋️' : '钦此' }}
         </el-button>
       </span>
     </template>
@@ -91,111 +98,76 @@ const handleSubmit = async () => {
 </template>
 
 <style scoped>
-.edit-dialog :deep(.el-dialog) {
-  --el-dialog-padding-primary: 24px;
+/* 新增皇家样式 */
+.imperial-editor :deep(.el-dialog__title) {
+  font-family: '华文行楷', cursive;
+  background: linear-gradient(45deg, #d4af37, #cdaa7d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+
+.imperial-editor :deep(.el-dialog) {
+  background: #fcf6e5;
+  border: 2px solid #d4af37;
   border-radius: 12px;
 }
 
-.edit-dialog :deep(.el-dialog__header) {
-  margin-right: 0;
-  padding: var(--el-dialog-padding-primary);
-  border-bottom: 1px solid var(--el-border-color-lighter);
-  margin-bottom: 0;
+.imperial-scroll {
+  /* background: url('~@/assets/paper-texture.jpg');
+  padding: 20px;
+  border-radius: 8px; */
+  /* border: 1px solid #d4af37; */
 }
 
-.edit-dialog :deep(.el-dialog__body) {
-  padding: var(--el-dialog-padding-primary);
+.imperial-input :deep(.el-input__inner) {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #d4af37;
+  font-family: '楷体',serif;
+  color: #8b4513;
 }
 
-.edit-dialog :deep(.el-dialog__footer) {
-  padding: var(--el-dialog-padding-primary);
-  border-top: 1px solid var(--el-border-color-lighter);
-  margin-top: 0;
+.imperial-date :deep(.el-input__inner) {
+  font-family: '楷体',serif;
+  color: #8b4513;
 }
 
-.edit-form {
-  --form-gap: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--form-gap);
+.imperial-btn {
+  font-family: '楷体',serif;
+  border-radius: 20px;
+  padding: 12px 24px;
+  border: 1px solid #d4af37;
+  background: linear-gradient(145deg, #fff3e0, #ffe0b2);
+  color: #8b4513 !important;
 }
 
-.edit-form-item {
-  margin-bottom: 0;
-}
-
-.edit-form-item :deep(.el-form-item__label) {
-  font-weight: 500;
-  padding-bottom: 8px;
-  color: var(--el-text-color-regular);
-}
-
-.edit-textarea :deep(.el-textarea__inner) {
-  font-family: var(--el-font-family);
-  padding: 12px;
-  line-height: 1.6;
-  font-size: 14px;
-  border-radius: 8px;
-  resize: vertical;
-}
-
-.edit-input :deep(.el-input__inner),
-.edit-date-picker :deep(.el-input__inner) {
-  font-size: 14px;
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.submit-button,
-.cancel-button {
-  min-width: 100px;
-  padding: 10px 20px;
-  font-size: 14px;
-}
-
-/* 移动端适配 */
-@media screen and (max-width: 768px) {
-  .edit-dialog :deep(.el-dialog) {
-    --el-dialog-padding-primary: 16px;
-    width: 92% !important;
-    max-width: none !important;
-  }
-
-  .edit-form {
-    --form-gap: 16px;
-  }
-
-  .edit-textarea :deep(.el-textarea__inner) {
-    font-size: 15px;
-  }
-
-  .submit-button,
-  .cancel-button {
-    flex: 1;
-    min-width: 0;
-  }
+.imperial-btn:hover {
+  background: linear-gradient(145deg, #ffe0b2, #fff3e0);
+  transform: translateY(-1px);
 }
 
 /* 暗色主题适配 */
 @media (prefers-color-scheme: dark) {
-  .edit-dialog :deep(.el-dialog) {
-    background: var(--el-bg-color-darker);
+  .imperial-editor :deep(.el-dialog) {
+    background: #2a2119;
+    border-color: #cdaa7d;
   }
-
-  .edit-dialog :deep(.el-dialog__title) {
-    color: var(--el-text-color-primary);
+  
+  .imperial-scroll {
+    background: #2a2119;
+    border-color: #cdaa7d;
   }
-
-  .edit-textarea :deep(.el-textarea__inner) {
-    background-color: var(--el-bg-color);
+  
+  .imperial-input :deep(.el-input__inner) {
+    background: rgba(42, 33, 25, 0.8);
+    border-color: #cdaa7d;
+    color: #d4af37;
   }
-
-  .edit-form-item :deep(.el-form-item__label) {
-    color: var(--el-text-color-primary);
+  
+  .imperial-btn {
+    background: linear-gradient(145deg, #3a2f28, #4a3f38);
+    border-color: #cdaa7d;
+    color: #d4af37 !important;
   }
 }
 </style> 

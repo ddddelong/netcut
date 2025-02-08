@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type {Data} from '@/types/netcut'
-import {addData, deleteData, queryAllData, updateData} from "@/api/netcut.ts";
-import {computed, onMounted, reactive, ref, watch} from "vue";
-import {ResultCode} from "@/types/netcut.ts";
-import {ElMessage, ElMessageBox} from 'element-plus';
-import {Plus} from '@element-plus/icons-vue';
-import EditDialog from './EditDialog.vue';
-import DetailDialog from './DetailDialog.vue';
-import DataList from './DataList.vue'
-import {useRoute, useRouter} from 'vue-router'
-import useUserStore from "@/stores/user.ts";
+import { addData, deleteData, queryAllData, updateData } from "@/api/netcut.ts";
 import Logout from "@/components/Logout.vue";
+import useUserStore from "@/stores/user.ts";
+import type { Data } from '@/types/netcut';
+import { ResultCode } from "@/types/netcut.ts";
+import { Plus } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, onMounted, reactive, ref, watch } from "vue";
+import { useRoute, useRouter } from 'vue-router';
+import DataList from './DataList.vue';
+import DetailDialog from './DetailDialog.vue';
+import EditDialog from './EditDialog.vue';
 
 const data = reactive<Data[]>([
   {
@@ -148,12 +148,12 @@ const handleAdd = async () => {
       if (existingIndex !== -1) {
         // 如果是覆盖，则替换原有记录
         Object.assign(data[existingIndex], {...newData});
-        ElMessage.success('记录已更新');
+        ElMessage.success('奏折已呈递至御书房！📜✨');
       } else {
         // 如果是新增，则添加到列表顶部
         data.unshift({...newData});
         totalItems.value = data.length;
-        ElMessage.success("添加成功")
+        ElMessage.success("奏折已呈递至御书房！📜✨")
       }
 
       // 重置表单
@@ -188,7 +188,7 @@ const handleDelete = async (name: string) => {
           currentPage.value--;
         }
       }
-      ElMessage.success('删除成功');
+      ElMessage.success('已发配冷宫！🚪❄️');
     }
   } catch (error) {
     ElMessage.error('删除失败');
@@ -240,25 +240,25 @@ const handleViewDetail = (item: Data) => {
   <div class="show-netcut">
     <Logout/>
     <el-form :inline="true" class="data-form">
-      <el-form-item label="名称">
+      <el-form-item label="📝 奏本名">
         <el-input
             v-model="newData.name"
-            placeholder="请输入名称"
+            placeholder="恭请陛下赐名"
             clearable
         />
       </el-form-item>
-      <el-form-item label="描述">
+      <el-form-item label="📋 奏本内容">
         <el-input
             v-model="newData.description"
-            placeholder="请输入描述"
+            placeholder="请陛下御览批注"
             clearable
         />
       </el-form-item>
-      <el-form-item label="日期">
+      <el-form-item label="📅 黄道吉日">
         <el-date-picker
             v-model="newData.date"
             type="datetime"
-            placeholder="选择日期时间"
+            placeholder="择良辰吉时"
             format="MM-DD HH:mm"
             value-format="MM-DD HH:mm"
             :teleported="false"
@@ -267,12 +267,12 @@ const handleViewDetail = (item: Data) => {
       <el-form-item class="add-button-item">
         <el-button
             type="primary"
-            class="add-button"
+            class="add-button imperial-btn"
             @click="handleAdd"
             :icon="Plus"
             :loading="adding"
         >
-          {{ adding ? '添加中...' : '添加记录' }}
+          {{ adding ? '快马加鞭呈递中...🏇' : '呈递奏折' }}
         </el-button>
       </el-form-item>
     </el-form>
@@ -313,60 +313,65 @@ const handleViewDetail = (item: Data) => {
   width: 100%;
   min-height: 60vh;
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); */
 }
 
-.data-form {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+.imperial-form-item :deep(.el-form-item__label) {
+  font-family: '楷体';
+  color: #8b4513;
+  font-size: 16px;
 }
 
-/* 移动端适配 */
-@media screen and (max-width: 768px) {
-  .show-netcut {
-    padding: 12px;
-  }
+.imperial-input :deep(.el-input__inner) {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #d4af37;
+  font-family: '楷体';
+  color: #8b4513;
+  min-width: 200px;
+}
 
-  .data-form {
-    padding: 16px;
-    margin-bottom: 16px;
-  }
+.imperial-date :deep(.el-input__inner) {
+  font-family: '楷体';
+  color: #8b4513;
+}
 
-  /* 改进表单在移动端的布局 */
-  :deep(.el-form--inline) {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+.imperial-btn {
+  font-family: '华文行楷';
+  letter-spacing: 2px;
+  background: linear-gradient(45deg, #d4af37, #cdaa7d);
+  border: 1px solid #8b4513;
+  color: #fff !important;
+  padding: 12px 24px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
 
-  :deep(.el-form--inline .el-form-item) {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 100%;
-  }
-
-  :deep(.el-form-item__label) {
-    padding-bottom: 8px;
-  }
-
-  .add-button {
-    width: 100%;
-    height: 40px;
-    font-size: 15px;
-  }
+.imperial-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(152, 109, 42, 0.3);
 }
 
 /* 暗色主题适配 */
 @media (prefers-color-scheme: dark) {
-  .show-netcut {
-    background: #1a1a1a;
+  .imperial-container {
+    background: #2a2119;
+    border-color: #cdaa7d;
   }
 
-  .data-form {
-    background: #2a2a2a;
+  .imperial-form-item :deep(.el-form-item__label) {
+    color: #d4af37;
+  }
+
+  .imperial-input :deep(.el-input__inner) {
+    background: rgba(42, 33, 25, 0.8);
+    border-color: #cdaa7d;
+    color: #d4af37;
+  }
+
+  .imperial-btn {
+    background: linear-gradient(45deg, #8b4513, #6b3e1e);
+    border-color: #d4af37;
   }
 }
 </style>

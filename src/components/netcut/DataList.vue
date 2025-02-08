@@ -56,31 +56,32 @@ const handleDelete = async (name: string) => {
   }
 }
 
+const handleCopy = async (text: string) => await copyToClipboard(text)
 </script>
 
 <template>
   <div class="data-list" v-loading="loading">
-    <el-empty v-if="data.length === 0" description="暂无数据" />
+    <el-empty v-if="data.length === 0" description="启禀陛下，暂无奏折呈上 📭" />
     <template v-else>
       <div class="cards-container">
-        <el-card v-for="item in data" :key="item.name" class="data-card">
+        <el-card v-for="item in data" :key="item.name" class="data-card imperial-card">
           <div class="card-header">
             <div class="card-title">
-              <h3 class="card-name">{{ item.name }}</h3>
+              <h3 class="card-name imperial-title">{{ item.name }}</h3>
               <el-tooltip 
-                content="来人，拿下！" 
+                content="誊抄奏本" 
                 placement="top"
                 :show-after="300"
               >
                 <el-icon
-                  class="copy-icon"
-                  @click.stop="copyToClipboard(item.description)"
+                  class="copy-icon imperial-copy"
+                  @click.stop="handleCopy(item.description)"
                 >
                   <DocumentCopy />
                 </el-icon>
               </el-tooltip>
-              <el-tag size="small" effect="plain" class="date-tag">
-                {{ item.date }}
+              <el-tag size="small" effect="plain" class="date-tag imperial-date">
+                🏮 {{ item.date }}
               </el-tag>
             </div>
             <div class="card-actions">
@@ -88,10 +89,10 @@ const handleDelete = async (name: string) => {
                 type="primary"
                 size="small"
                 @click="emit('edit', item)"
-                class="edit-button"
+                class="edit-button imperial-btn"
               >
                 <el-icon><Edit /></el-icon>
-                <span>编辑</span>
+                <span>朱批御览</span>
               </el-button>
               <el-button
                 type="danger"
@@ -99,29 +100,27 @@ const handleDelete = async (name: string) => {
                 @click="handleDelete(item.name)"
                 :loading="deleting === item.name"
                 :disabled="deleting !== null"
-                class="delete-button"
+                class="delete-button imperial-btn"
               >
                 <el-icon><Delete /></el-icon>
-                <span v-if="deleting !== item.name">删除</span>
+                <span v-if="deleting !== item.name">打入冷宫</span>
                 <template #loading>
-                  <span class="loading-text">删除中</span>
+                  <span class="loading-text">发配中...</span>
                 </template>
               </el-button>
             </div>
           </div>
-          <div class="card-content" @click="emit('view', item)">
+          <div class="card-content imperial-scroll" @click="emit('view', item)">
             <p class="description" :title="item.description">
               <span v-html="render(formatDescription(item.description))"></span>
-<!--              {{ formatDescription(item.description) }}-->
             </p>
             <div class="view-more">
               <el-icon><View /></el-icon>
-              <span>点击查看详情</span>
+              <span>展开奏折详情</span>
             </div>
           </div>
         </el-card>
       </div>
-
 
       <div class="pagination-container">
         <Pagination
@@ -212,7 +211,7 @@ const handleDelete = async (name: string) => {
 }
 
 .card-content:hover {
-  background-color: var(--el-fill-color-light);
+  background-color: rgba(255, 235, 205, 0.3);
 }
 
 .description {
@@ -251,7 +250,7 @@ const handleDelete = async (name: string) => {
   align-items: center;
   gap: 4px;
   margin-top: 8px;
-  color: var(--el-color-primary);
+  color: #8b4513;
   font-size: 13px;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -268,6 +267,7 @@ const handleDelete = async (name: string) => {
 .card-actions {
   display: flex;
   gap: 8px;
+  margin-top: 10px;
 }
 
 .edit-button,
@@ -289,10 +289,16 @@ const handleDelete = async (name: string) => {
   right: 0;
   top: 0;
   cursor: pointer;
-  color: var(--el-text-color-secondary);
+  color: #8b4513;
   transition: opacity 0.2s;
   z-index: 1;
 }
+
+.copy-icon:hover {
+  color: #d4af37;
+  transform: scale(1.1);
+}
+
 /* 移动端适配 */
 @media screen and (max-width: 768px) {
   .data-list {
@@ -378,40 +384,67 @@ const handleDelete = async (name: string) => {
   }
 }
 
+/* 新增皇家样式 */
+.imperial-card {
+  /* background: #fcf6e5; */
+  border: 1px solid #d4af37;
+  box-shadow: 0 2px 8px rgba(152, 109, 42, 0.1);
+}
+
+.imperial-title {
+  color: #8b4513;
+  letter-spacing: 1px;
+}
+
+.imperial-date {
+  background: linear-gradient(145deg, #fff3e0, #ffe0b2);
+  border: 1px solid #d4af37;
+  color: #8b4513 !important;
+  font-family: '楷体',serif;
+  border-radius: 12px;
+}
+
+.imperial-scroll {
+  /*background: url('~@/assets/paper-texture.jpg');*/
+  border-radius: 6px;
+  border: 1px solid #d4af37;
+  margin: 10px;
+}
+
+.imperial-btn {
+  font-family: '楷体',serif;
+  letter-spacing: 1px;
+  border-radius: 20px;
+}
+
+.imperial-btn span {
+  vertical-align: middle;
+}
+
 /* 暗色主题适配 */
 @media (prefers-color-scheme: dark) {
-  .data-card {
-    background: #2a2a2a;
-    border: 1px solid #333;
+  .imperial-card {
+    background: #2a2119;
+    border-color: #cdaa7d;
   }
-
-  .card-name {
-    color: #e5e5e5;
+  
+  .imperial-title {
+    color: #d4af37;
   }
-
-  .description {
-    color: var(--el-text-color-regular);
+  
+  .imperial-date {
+    background: linear-gradient(145deg, #3a2f28, #4a3f38);
+    border-color: #cdaa7d;
+    color: #d4af37 !important;
   }
-
-  .description::after {
-    background: linear-gradient(to right, transparent, var(--el-bg-color-darker) 50%);
-  }
-
-  :deep(.el-card) {
-    --el-card-bg-color: #2a2a2a;
-    border-color: #333;
-  }
-
-  :deep(.el-button--primary) {
-    --el-button-hover-bg-color: var(--el-color-primary-light-3);
-  }
-
-  :deep(.el-button--danger) {
-    --el-button-hover-bg-color: var(--el-color-danger-light-3);
-  }
-
+  
   .card-content:hover {
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(205, 170, 125, 0.1);
+  }
+  
+  .imperial-scroll {
+    background: #2a2119;
+    border-color: #cdaa7d;
   }
 }
 </style> 

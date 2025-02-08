@@ -63,7 +63,7 @@ const handleClose = () => {
 <template>
   <el-dialog
     v-model="dialogVisible"
-    :title="data.name"
+    :title="`${data.name}-秘档 📜`"
     width="90%"
     :max-width="600"
     class="detail-dialog"
@@ -73,25 +73,24 @@ const handleClose = () => {
   >
     <div class="detail-content">
       <div class="detail-header">
-        <el-tag size="small" effect="plain" class="detail-date">
-          {{ data.date }}
+        <el-tag size="small" effect="plain" class="detail-date imperial-date">
+          📅 黄道吉日：{{ data.date }}
         </el-tag>
         <el-tooltip 
-          content="来人，拷走！" 
+          content="来人，给朕拷走！📜" 
           placement="top"
           :show-after="300"
         >
           <el-icon
-            class="copy-icon"
+            class="copy-icon imperial-copy"
             @click="copyToClipboard(data.description)"
           >
             <DocumentCopy />
           </el-icon>
         </el-tooltip>
       </div>
-      <div class="detail-body">
+      <div class="detail-body imperial-scroll">
         <span v-html="render(data.description)"></span>
-<!--        <pre class="detail-description">{{ data.description }}</pre>-->
       </div>
       <div v-if="extractInfo.length" class="detail-info">
         <div class="info-tags">
@@ -245,5 +244,55 @@ const handleClose = () => {
 
 .copy-icon:hover {
   color: var(--el-color-primary);
+}
+
+/* 新增皇家样式 */
+:deep(.el-dialog__title) {
+  font-family: '华文行楷', cursive;
+  background: linear-gradient(45deg, #d4af37, #cdaa7d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+
+.imperial-date {
+  border-radius: 15px;
+  background: linear-gradient(145deg, #fff3e0, #ffe0b2);
+  border: 1px solid #d4af37;
+  color: #8b4513 !important;
+  font-family: '楷体';
+}
+
+.imperial-scroll {
+  background: url('~@/assets/paper-texture.jpg');
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(152, 109, 42, 0.1);
+  border: 1px solid #d4af37;
+}
+
+.imperial-copy {
+  color: #8b4513 !important;
+  transition: all 0.3s ease;
+}
+
+.imperial-copy:hover {
+  color: #d4af37 !important;
+  transform: scale(1.2);
+}
+
+/* 调整标签样式为奏折风格 */
+.info-tag {
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fff3e0, #ffe0b2);
+  border: 1px solid #d4af37;
+  color: #8b4513 !important;
+  font-family: '楷体';
+}
+
+.info-tag:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 8px rgba(152, 109, 42, 0.2);
+  background: linear-gradient(145deg, #ffe0b2, #fff3e0);
 }
 </style> 

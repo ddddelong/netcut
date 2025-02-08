@@ -1,0 +1,10 @@
+/* 定义字体 */
+@font-face {
+  font-family: '华文行楷';
+  src: url('@/assets/font/STXINGKA.TTF') format('truetype');
+}
+
+@font-face {
+  font-family: '楷体';
+  src: url('@/assets/font/SIMKAI.TTF') format('truetype');
+}

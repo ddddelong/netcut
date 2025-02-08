@@ -8,6 +8,7 @@ const loginForm = reactive<LoginForm>({
   username: 'admin',
   password: '',
 })
+const isLoading = ref(false);
 
 const userStore = useUserStore()
 
@@ -16,9 +17,10 @@ const handleLogin = async () => {
     ElMessage.warning('请输入用户名和密码')
     return
   }
-
+  isLoading.value = true;
   // 实现登录逻辑
   await userStore.login(loginForm)
+  isLoading.value = false
 };
 
 // 处理注册
@@ -61,12 +63,13 @@ function handleForget(): void {
         >
         <div>密码是123456</div>
       </div>
-      <button
-        class="login-button"
-        @click="handleLogin"
+      <el-button
+          class="login-button"
+          @click="handleLogin"
+          :loading="isLoading"
       >
         <span>登 录</span>
-      </button>
+      </el-button>
       <div class="extra-links">
         <a href="#" @click="handleForget">忘记密码？</a>
         <a href="#" @click="handleSignIn">注册账号</a>
@@ -158,6 +161,7 @@ function handleForget(): void {
 
     .login-button {
       width: 100%;
+      height: 40px;
       padding: 14px;
       background: linear-gradient(45deg, #667eea, #764ba2);
       color: white;
