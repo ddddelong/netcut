@@ -16,4 +16,17 @@ export default defineConfig({
   server: {
     host: true,
   },
+  build: {
+    // minify: false,   // 是否丑化
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // 分包，将node模块单独打包
+          if(id.includes("node_modules")) {
+            return 'vendor'
+          }
+        }
+      }
+    }
+  }
 });

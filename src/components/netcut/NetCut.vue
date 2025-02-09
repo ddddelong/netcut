@@ -240,21 +240,23 @@ const handleViewDetail = (item: Data) => {
   <div class="show-netcut">
     <Logout/>
     <el-form :inline="true" class="data-form">
-      <el-form-item label="📝 奏本名">
+      <el-form-item label="📝 奏本名" label-width="95px">
         <el-input
             v-model="newData.name"
             placeholder="恭请陛下赐名"
-            clearable
+            :clearable="true"
+            input-style="width: 150px"
         />
       </el-form-item>
-      <el-form-item label="📋 奏本内容">
+      <el-form-item label="📋 奏本内容" label-width="95px">
         <el-input
             v-model="newData.description"
             placeholder="请陛下御览批注"
-            clearable
+            :clearable="true"
+            input-style="width: 150px"
         />
       </el-form-item>
-      <el-form-item label="📅 黄道吉日">
+      <el-form-item label="📅 黄道吉日" label-width="95px">
         <el-date-picker
             v-model="newData.date"
             type="datetime"

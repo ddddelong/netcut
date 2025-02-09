@@ -69,14 +69,12 @@ const goBack = () => {
 }
 
 :deep(.el-page-header__left) {
-  border: 1px solid #d4af37;
-  border-radius: 50%;
   padding: 4px;
   transition: all 0.3s ease;
 }
 
 :deep(.el-page-header__left:hover) {
-  background: rgba(212, 175, 55, 0.1);
+  /*background: rgba(212, 175, 55, 0.1);*/
   transform: scale(1.1);
 }
 
