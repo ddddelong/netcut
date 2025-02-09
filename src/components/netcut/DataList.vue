@@ -28,14 +28,14 @@ const handlePageChange = (page: number) => {
 }
 
 // 修改 formatDescription 函数
-const formatDescription = (text: string) => {
-  return text
-    .replace(/\t/g, '    ') // 将制表符转换为4个空格
-    .replace(/\n{3,}/g, '\n\n') // 将3个及以上连续换行符替换为2个
-    .split('\n')
-    .slice(0, 4) // 在卡片预览中最多显示4行
-    .join('\n')
-}
+// const formatDescription = (text: string) => {
+//   return text
+//     .replace(/\t/g, '    ') // 将制表符转换为4个空格
+//     .replace(/\n{3,}/g, '\n\n') // 将3个及以上连续换行符替换为2个
+//     .split('\n')
+//     .slice(0, 4) // 在卡片预览中最多显示4行
+//     .join('\n')
+// }
 
 const handleDelete = async (name: string) => {
   try {
@@ -111,9 +111,9 @@ const handleCopy = async (text: string) => await copyToClipboard(text)
             </div>
           </div>
           <div class="card-content imperial-scroll" @click="emit('view', item)">
-            <p class="description markdown-body" :title="item.description">
-              <span v-html="render(formatDescription(item.description))"></span>
-            </p>
+            <div class="description markdown-body" :title="item.description">
+              <span v-html="render(item.description)"></span>
+            </div>
             <div class="view-more">
               <el-icon><View /></el-icon>
               <span>展开奏折详情</span>
@@ -220,11 +220,11 @@ const handleCopy = async (text: string) => await copyToClipboard(text)
   word-break: break-word;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   color: var(--el-text-color-regular);
   /*white-space: pre-line;*/
-  font-family: var(--el-font-family);
+  /*font-family: var(--el-font-family);*/
   tab-size: 4;
   padding: 0;
   font-size: 14px;

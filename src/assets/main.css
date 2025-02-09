@@ -31,7 +31,7 @@
 
 /* 段落样式 */
 .markdown-body p {
-  margin: 1em 0;
+  margin: 2px 0;
   text-indent: 2em;
 }
 
@@ -152,6 +152,15 @@
   transform: scale(1.002);
   box-shadow: 0 2px 6px rgba(152, 109, 42, 0.1);
 }
+
+.markdown-body strong,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5 {
+  font-weight: bold;
+}
+
 
 /* 移动端奏折适配 */
 @media screen and (max-width: 768px) {
