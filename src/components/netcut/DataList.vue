@@ -111,7 +111,7 @@ const handleCopy = async (text: string) => await copyToClipboard(text)
             </div>
           </div>
           <div class="card-content imperial-scroll" @click="emit('view', item)">
-            <p class="description" :title="item.description">
+            <p class="description markdown-body" :title="item.description">
               <span v-html="render(formatDescription(item.description))"></span>
             </p>
             <div class="view-more">

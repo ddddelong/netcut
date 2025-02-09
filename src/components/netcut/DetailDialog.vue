@@ -89,7 +89,7 @@ const handleClose = () => {
           </el-icon>
         </el-tooltip>
       </div>
-      <div class="detail-body imperial-scroll">
+      <div class="detail-body imperial-scroll markdown-body">
         <span v-html="render(data.description)"></span>
       </div>
       <div v-if="extractInfo.length" class="detail-info">
@@ -264,7 +264,7 @@ const handleClose = () => {
 }
 
 .imperial-scroll {
-  background: url('~@/assets/paper-texture.jpg');
+  /*background: url('~@/assets/paper-texture.jpg');*/
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 12px rgba(152, 109, 42, 0.1);

@@ -1,2 +1,230 @@
 @import "./base.css";
 @import "./font/font.css";
+
+/* 御批奏折通用样式 */
+.markdown-body {
+  font-family: '楷体', cursive;
+  color: #5a3921;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+/* 标题样式 */
+.markdown-body h1 {
+  font-family: '华文行楷';
+  color: #8b4513;
+  border-bottom: 3px double #d4af37;
+  padding-bottom: 0.3em;
+  margin: 1.5em 0 1em;
+  font-size: 2.2em;
+}
+
+.markdown-body h2 {
+  font-family: '华文行楷';
+  color: #8b4513;
+  border-left: 6px solid #d4af37;
+  padding-left: 0.8em;
+  margin: 1.3em 0;
+}
+
+/* 段落样式 */
+.markdown-body p {
+  margin: 1em 0;
+  text-indent: 2em;
+}
+
+/* 列表样式 */
+.markdown-body ul,
+.markdown-body ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.markdown-body li {
+  margin: 0.5em 0;
+  position: relative;
+}
+
+.markdown-body ul li::before {
+  content: "·";
+  color: #d4af37;
+  font-weight: bold;
+  position: absolute;
+  left: -1em;
+}
+
+/* 引用样式 */
+.markdown-body blockquote {
+  background: rgba(212, 175, 55, 0.08);
+  border-left: 4px solid #d4af37;
+  margin: 1em 0;
+  padding: 1em 1.5em;
+  border-radius: 4px;
+  font-style: italic;
+}
+
+/* 代码样式 */
+.markdown-body code {
+  font-family: Monaco, Consolas;
+  background: rgba(212, 175, 55, 0.15);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  color: #8b4513;
+}
+
+.markdown-body pre {
+  background: linear-gradient(145deg, #fff3e0, #ffe0b2);
+  padding: 1em;
+  border-radius: 6px;
+  border: 1px solid #d4af37;
+  overflow-x: auto;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+  color: #5a3921;
+}
+
+/* 链接样式 */
+.markdown-body a {
+  color: #8b4513;
+  text-decoration: underline wavy #d4af37;
+  transition: all 0.3s ease;
+}
+
+.markdown-body a:hover {
+  color: #d4af37;
+  text-decoration: underline double;
+}
+
+/* 图片样式 */
+.markdown-body img {
+  max-width: 100%;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  margin: 1em 0;
+  box-shadow: 0 2px 6px rgba(152, 109, 42, 0.1);
+}
+
+/* ... existing imports ... */
+
+/* 御批奏折样式（Markdown通用样式） */
+.markdown-body {
+  font-family: '楷体', cursive;
+  color: #5a3921;
+  line-height: 1.8;
+}
+
+/* 表格样式（奏折对仗工整版） */
+.markdown-body table {
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(152, 109, 42, 0.1);
+  background: linear-gradient(145deg, #fff3e0, #ffe0b2);
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.markdown-body th {
+  font-family: '华文行楷';
+  background: #d4af37;
+  color: #8b4513;
+  padding: 12px;
+  border-bottom: 3px solid #8b4513;
+}
+
+.markdown-body td {
+  padding: 12px;
+  border: 1px solid #d4af37;
+}
+
+.markdown-body tr:nth-child(even) {
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.markdown-body tr:hover {
+  background: rgba(212, 175, 55, 0.15);
+  transform: scale(1.002);
+  box-shadow: 0 2px 6px rgba(152, 109, 42, 0.1);
+}
+
+/* 移动端奏折适配 */
+@media screen and (max-width: 768px) {
+  .markdown-body table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(152, 109, 42, 0.1);
+  }
+}
+
+/* 暗色模式御批 */
+@media (prefers-color-scheme: dark) {
+  .markdown-body {
+    color: #e0d3c3;
+  }
+  
+  .markdown-body table {
+    background: #2a2119;
+    border-color: #cdaa7d;
+  }
+  
+  .markdown-body th {
+    background: #8b4513;
+    color: #d4af37;
+    border-color: #d4af37;
+  }
+  
+  .markdown-body td {
+    border-color: #cdaa7d;
+  }
+  
+  .markdown-body tr:nth-child(even) {
+    background: rgba(205, 170, 125, 0.08);
+  }
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .markdown-body {
+    padding: 1em;
+    font-size: 0.95em;
+  }
+  
+  .markdown-body h1 {
+    font-size: 1.8em;
+  }
+}
+
+/* 暗色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .markdown-body {
+    color: #e0d3c3;
+  }
+  
+  .markdown-body h1,
+  .markdown-body h2 {
+    color: #d4af37;
+  }
+  
+  .markdown-body code {
+    background: rgba(205, 170, 125, 0.15);
+    color: #e0d3c3;
+  }
+  
+  .markdown-body pre {
+    background: #2a2119;
+    border-color: #cdaa7d;
+  }
+  
+  .markdown-body a {
+    color: #d4af37;
+  }
+  
+  /* 其他暗色模式样式保持原有优化 */
+}
