@@ -1,4 +1,3 @@
-import Login from "@/components/Login/index.vue";
 import NetCut from "@/components/netcut/NetCut.vue";
 import useUserStore from "@/stores/user";
 import { createRouter, createWebHistory } from "vue-router";
@@ -15,8 +14,16 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: Login,
+      component: () => import('@/components/Login/index.vue'),
       meta: { guestOnly: true }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('@/components/Signup/index.vue'),
+      meta: {
+        guestOnly: true
+      }
     },
     {
       path: '/:pathMatch(.*)*',  // 匹配所有路径，如果路径不存在，则重定向到首页

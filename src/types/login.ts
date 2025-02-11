@@ -9,9 +9,16 @@ interface LoginRespond {
   message: string;
   data: {
     username: string;
-    token: string;
-    refresh_token: string;
+    accessToken: string;
+    refreshToken: string;
   };
   success: boolean;
 }
+
+export interface RegisterForm {
+  username: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export type { LoginForm, LoginRespond };

@@ -4,6 +4,7 @@ enum API_URL {
   queryAll = "/netcut/queryAll",
   deleteData = "/netcut/delete",
   updateData = "/netcut/add",
+  register = "/register",
 }
 
 export { API_URL };

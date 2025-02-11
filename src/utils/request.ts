@@ -1,3 +1,4 @@
+import useUserStore from "@/stores/user";
 import axios from "axios";
 
 import type {
@@ -16,6 +17,17 @@ const api: AxiosInstance = axios.create({
   },
 });
 
+// 添加请求拦截器
+api.interceptors.request.use(config => {
+  const userStore = useUserStore();
+  console.log('添加请求头', userStore.token);
+
+  if (userStore.token) {
+    config.headers.Authorization = `Bearer ${userStore.token}`;
+  }
+  return config;
+});
+
 // 通用错误处理函数
 const handleError = (error: Error | AxiosError): never => {
   if (axios.isAxiosError(error)) {
@@ -23,6 +35,7 @@ const handleError = (error: Error | AxiosError): never => {
     if (error.response) {
       console.error("Response status:", error.response.status);
       console.error("Response data:", error.response.data);
+      throw error.response.data;
     }
   } else {
     console.error("An error occurred:", error);
